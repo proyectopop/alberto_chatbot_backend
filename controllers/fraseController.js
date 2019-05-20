@@ -39,7 +39,7 @@ async function agregarFrase(req, res) {
 
 async function editarFrase(req, res) {
 
-  if (!req.params) {
+  if (!req.params.id) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
@@ -47,9 +47,10 @@ async function editarFrase(req, res) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
-  const { id } = req.params;
-
-  await Frase.update(id, { frase: req.body.texto, palabrasClave: req.body.palabrasClave });
+  await Frase.updateOne({ _id: req.params.id }, {
+    $set:
+      { texto: req.body.texto, palabrasClave: req.body.palabrasClave },
+  });
 
   res.status(400).json();
 }
@@ -62,7 +63,7 @@ async function editarFrase(req, res) {
 
 async function borrarFrase(req, res) {
 
-  Frase.deleteOne({ id: req.params.id });
+  await Frase.deleteOne({ _id: req.params.id });
 
   res.status(200).json();
 }

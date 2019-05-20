@@ -9,7 +9,7 @@ const frases = require('./controllers/fraseController');
 // FRASES API
 router.get('/frases', wrapAsync(frases.todasLasFrases));
 router.post('/frases', wrapAsync(frases.agregarFrase));
-
-// TODO --> agregar rutas para editar y borrar
+router.patch('/frases/:id', wrapAsync(frases.editarFrase));
+router.delete('/frases/:id', wrapAsync(frases.borrarFrase));
 
 module.exports = router;

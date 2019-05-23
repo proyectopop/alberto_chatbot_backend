@@ -12,15 +12,21 @@ async function todasLasFrases(req, res) {
   res.status(200).json({ frases });
 }
 
-async function buscarUnFraseQueContenga(req, res) {
+async function buscarUnaFrase(req, res) {
   if (!req.query) {
     res.status(400).json({ error: 'Petición mal formada' });
+    return;
   }
 
   const { q } = req.query;
 
-  Frase.find({ texto: q });
+  const frases = await Frase.find({
+    $text: { $search: q, $caseSensitive: false },
+  });
+
+  res.status(200).json(frases);
 }
+
 // -------------------------------------------------------------------------- //
 // * POST *
 // -------------------------------------------------------------------------- //
@@ -74,6 +80,7 @@ async function borrarFrase(req, res) {
 }
 
 module.exports = {
+  buscarUnaFrase,
   todasLasFrases,
   agregarFrase,
   editarFrase,

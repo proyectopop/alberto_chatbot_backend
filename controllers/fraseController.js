@@ -2,26 +2,34 @@ const mongoose = require('mongoose');
 
 const Frase = mongoose.model('Frase');
 
-
 // -------------------------------------------------------------------------- //
 // * GET *
 // -------------------------------------------------------------------------- //
 
 async function todasLasFrases(req, res) {
-
   const frases = await Frase.find();
 
   res.status(200).json({ frases });
 }
 
+async function buscarUnFraseQueContenga(req, res) {
+  if (!req.query) {
+    res.status(400).json({ error: 'Petición mal formada' });
+  }
+
+  const { q } = req.query;
+
+  Frase.find({ texto: q });
+}
 // -------------------------------------------------------------------------- //
 // * POST *
 // -------------------------------------------------------------------------- //
 
 async function agregarFrase(req, res) {
-
   if (!req.body.texto || !req.body.palabrasClave) {
-    res.status(400).json({ error: 'Se debe incluir la frase y las palabras clave' });
+    res
+      .status(400)
+      .json({ error: 'Se debe incluir la frase y las palabras clave' });
     return;
   }
 
@@ -32,42 +40,42 @@ async function agregarFrase(req, res) {
   res.status(200).json();
 }
 
-
 // -------------------------------------------------------------------------- //
 // * PATCH *
 // -------------------------------------------------------------------------- //
 
 async function editarFrase(req, res) {
-
   if (!req.params.id) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
-  if (!req.body.texto && !(req.body.palabrasClave)) {
+  if (!req.body.texto && !req.body.palabrasClave) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
-  await Frase.updateOne({ _id: req.params.id }, {
-    $set:
-      { texto: req.body.texto, palabrasClave: req.body.palabrasClave },
-  });
+  await Frase.updateOne(
+    { _id: req.params.id },
+    {
+      $set: { texto: req.body.texto, palabrasClave: req.body.palabrasClave },
+    },
+  );
 
   res.status(400).json();
 }
-
 
 // -------------------------------------------------------------------------- //
 // * DELETE *
 // -------------------------------------------------------------------------- //
 
-
 async function borrarFrase(req, res) {
-
   await Frase.deleteOne({ _id: req.params.id });
 
   res.status(200).json();
 }
 
 module.exports = {
-  todasLasFrases, agregarFrase, editarFrase, borrarFrase,
+  todasLasFrases,
+  agregarFrase,
+  editarFrase,
+  borrarFrase,
 };

@@ -21,7 +21,7 @@ async function buscarUnaFrase(req, res) {
   const { q } = req.query;
 
   const frases = await Frase.find({
-    $text: { $search: q, $caseSensitive: false },
+    $text: { $search: `"${q}"`, $caseSensitive: false },
   });
 
   res.status(200).json(frases);

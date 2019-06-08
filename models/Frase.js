@@ -5,7 +5,7 @@ const Frase = new mongoose.Schema({
   palabrasClave: { type: String, trim: true },
   imagenAdjuntaUrl: { type: String, trim: true },
   genero: { type: String, trim: true },
-  animo: { type: Number },
+  animo: { type: String },
 });
 
 Frase.index({ texto: 'text' });

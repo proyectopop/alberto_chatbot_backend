@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Frase = new mongoose.Schema({
+  tema: { type: String, trim: true },
   texto: { type: String, trim: true },
   palabrasClave: { type: String, trim: true },
   imagenAdjuntaUrl: { type: String, trim: true },

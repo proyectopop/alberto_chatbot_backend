@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
 
-const Frase = mongoose.model('Frase');
+const Respuesta = mongoose.model('Frase');
+
 
 // -------------------------------------------------------------------------- //
 // * GET *
 // -------------------------------------------------------------------------- //
 
-async function todasLasFrases(req, res) {
-  const frases = await Frase.find();
+async function todasLasRespuestas(req, res) {
+  const frases = await Respuesta.find();
 
   res.status(200).json({ frases });
 }
 
-async function buscarUnaFrase(req, res) {
+async function buscarUnaRespuesta(req, res) {
   if (!req.query) {
     res.status(400).json({ error: 'Petición mal formada' });
     return;
@@ -20,20 +21,20 @@ async function buscarUnaFrase(req, res) {
 
   const { q } = req.query;
 
-  const frases = await Frase.find({
+  const respuestas = await Respuesta.find({
     // eslint-disable-next-line quotes
     $text: { $search: `"'${q}'"`, $caseSensitive: false },
   },
   { score: { $meta: 'textScore' } });
 
-  res.status(200).json(frases);
+  res.status(200).json(respuestas);
 }
 
 // -------------------------------------------------------------------------- //
 // * POST *
 // -------------------------------------------------------------------------- //
 
-async function agregarFrase(req, res) {
+async function agregarRespuesta(req, res) {
   if (!req.body.texto || !req.body.palabrasClave) {
     res
       .status(400)
@@ -41,9 +42,9 @@ async function agregarFrase(req, res) {
     return;
   }
 
-  const nuevaFrase = new Frase(req.body);
+  const nuevaRespuesta = new Respuesta(req.body);
 
-  await nuevaFrase.save();
+  await nuevaRespuesta.save();
 
   res.status(200).json();
 }
@@ -52,19 +53,19 @@ async function agregarFrase(req, res) {
 // * PATCH *
 // -------------------------------------------------------------------------- //
 
-async function editarFrase(req, res) {
+async function editarRespuesta(req, res) {
   if (!req.params.id) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
-  if (!req.body.texto && !req.body.palabrasClave) {
+  if (!req.body.texto && !req.body.disparador) {
     res.status(400).json({ error: 'Error en la petición' });
   }
 
-  await Frase.updateOne(
+  await Respuesta.updateOne(
     { _id: req.params.id },
     {
-      $set: { texto: req.body.texto, palabrasClave: req.body.palabrasClave },
+      $set: { texto: req.body.texto, disparador: req.body.disparador },
     },
   );
 
@@ -75,16 +76,16 @@ async function editarFrase(req, res) {
 // * DELETE *
 // -------------------------------------------------------------------------- //
 
-async function borrarFrase(req, res) {
-  await Frase.deleteOne({ _id: req.params.id });
+async function borrarRespuesta(req, res) {
+  await Respuesta.deleteOne({ _id: req.params.id });
 
   res.status(200).json();
 }
 
 module.exports = {
-  buscarUnaFrase,
-  todasLasFrases,
-  agregarFrase,
-  editarFrase,
-  borrarFrase,
+  buscarUnaRespuesta,
+  todasLasRespuestas,
+  agregarRespuesta,
+  editarRespuesta,
+  borrarRespuesta,
 };

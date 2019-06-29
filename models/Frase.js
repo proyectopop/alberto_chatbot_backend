@@ -9,7 +9,6 @@ const Frase = new mongoose.Schema({
   animo: { type: Number },
 });
 
-Frase.index({ texto: 'text' });
 Frase.index({ palabrasClave: 'text' });
 
 module.exports = mongoose.model('Frase', Frase);

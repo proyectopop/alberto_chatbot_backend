@@ -8,6 +8,6 @@ const Respuestas = new mongoose.Schema({
   animo: { type: Number },
 });
 
-Respuestas.index({ palabrasClave: 'text' });
+Respuestas.index({ disparador: 'text' });
 
 module.exports = mongoose.model('respuestas', Respuestas);

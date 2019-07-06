@@ -20,7 +20,9 @@ async function procesarMensaje(req, res) {
   },
   { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } });
 
-  return res.status(200).json({ indican: resultado[0].indican });
+  const indica = resultado[0] ? resultado[0].indican : null;
+
+  return res.status(200).json({ indica });
 }
 
 module.exports = { procesarMensaje };

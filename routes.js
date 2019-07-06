@@ -18,7 +18,7 @@ router.patch('/frases/:id', catchingAsyncErrors(frases.editarFrase));
 router.delete('/frases/:id', catchingAsyncErrors(frases.borrarFrase));
 
 // PALABRAS CLAVE
-router.get('/palabrasClave', catchingAsyncErrors(palabrasClave.procesarMensaje));
+router.get('/palabrasClave/buscar', catchingAsyncErrors(palabrasClave.procesarMensaje));
 
 // RESPUESTA
 router.get('/respuestas', catchingAsyncErrors(respuestas.todasLasRespuestas));

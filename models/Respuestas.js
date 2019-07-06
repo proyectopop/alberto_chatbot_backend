@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Frase = new mongoose.Schema({
+const Respuestas = new mongoose.Schema({
   texto: { type: String, trim: true },
   disparador: { type: String, trim: true },
   imagenAdjuntaUrl: { type: String, trim: true },
@@ -8,6 +8,6 @@ const Frase = new mongoose.Schema({
   animo: { type: Number },
 });
 
-Frase.index({ palabrasClave: 'text' });
+Respuestas.index({ palabrasClave: 'text' });
 
-module.exports = mongoose.model('Frase', Frase);
+module.exports = mongoose.model('respuestas', Respuestas);

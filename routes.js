@@ -1,5 +1,6 @@
 require('./models/Frase');
 require('./models/PalabrasClave');
+require('./models/Respuestas');
 
 const router = require('express').Router();
 

@@ -14,6 +14,7 @@ async function procesarMensaje(req, res) {
   const { fase, mensaje } = req.query;
 
   const resultado = await PalabrasClave.find({
+    $or: [{ fase }, { fase: 'indistinta' }],
     // eslint-disable-next-line quotes
     $text: { $search: `"'${mensaje}'"`, $caseSensitive: false },
   },

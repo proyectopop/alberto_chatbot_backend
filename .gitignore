@@ -74,3 +74,6 @@ typings/
 
 # VS Code Config
 .vscode
+
+# Google Service Account Info
+alberto-fernandez-chatbot.json

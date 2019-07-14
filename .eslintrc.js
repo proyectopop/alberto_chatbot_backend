@@ -13,6 +13,7 @@ module.exports = {
         "ecmaVersion": 2018
     },
     "rules": {
-        "padded-blocks": 0
+        "padded-blocks": 0,
+        "prefer-destructuring": 0,
     }
 };

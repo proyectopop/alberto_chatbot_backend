@@ -7,22 +7,22 @@ const credentials = {
   private_key: confKeys.googlePrivateKey,
 };
 
-const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
-const sessionPath = sessionClient.sessionPath(
-  confKeys.googleProjectID, confKeys.dialogFlowSessionID,
-);
-
+//
+// ─── EVENT QUERIES ─────────────────────────────────────────────────────────────────────
+//
 async function comenzar(req, res) {
 
   if (!req.body.event) return res.status(400).json({ error: 'Evento vacío' });
 
+  const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
+  const sessionPath = sessionClient.sessionPath(
+    confKeys.googleProjectID, 'test13',
+  );
+
   const evento = {
     session: sessionPath,
     queryInput: {
-      event: {
-        name: req.body.event,
-        languageCode: confKeys.dialogFlowSessionLanguageCode,
-      },
+      event: { name: req.body.event, languageCode: confKeys.dialogFlowSessionLanguageCode },
     },
   };
 
@@ -31,6 +31,9 @@ async function comenzar(req, res) {
   return res.status(200).json(resultado);
 }
 
+//
+// ─── TEXT QUERIES ─────────────────────────────────────────────────────────────────────
+//
 async function recibeMensaje(req, res) {
 
   /**
@@ -38,26 +41,21 @@ async function recibeMensaje(req, res) {
    * @param {string} [text=""] -- El texto que envía el usuario
    * @param {Array<{"name":String, "lifeSpanCount": Number, "parameters": Object}>} [contexts=[]]
    *  -- El contexto de la conversación."Name" es el nombre del contexto y
-   *  "lifeSpanCount" (opcional) indica   *  cuántas interacciones debe durar este contexto.
+   *  "lifeSpanCount" (opcional) indica cuántas interacciones debe durar este contexto.
    */
 
   if (!req.body.text) return res.status(400).json({ error: 'Mensaje vacío' });
-
   const { text } = req.body;
-  const contexts = req.body.contexts;
 
+  const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
+  const sessionPath = sessionClient.sessionPath(
+    confKeys.googleProjectID, 'test14',
+  );
 
   const consulta = {
     session: sessionPath,
-    queryInput: {
-      text: {
-        text,
-        languageCode: confKeys.dialogFlowSessionLanguageCode,
-      },
-    },
-    queryParams: {
-      contexts: contexts && contexts.length ? contexts : null,
-    },
+    queryInput: { text: { text, languageCode: process.env.DIALOGFLOW_LANGUAGE_CODE } },
+    queryParams: { timeZone: process.env.DIALOGFLOW_TIME_ZONE },
   };
 
 
@@ -66,6 +64,5 @@ async function recibeMensaje(req, res) {
   return res.status(200).json(responses);
 
 }
-
 
 module.exports = { comenzar, recibeMensaje };

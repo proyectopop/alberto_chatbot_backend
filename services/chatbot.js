@@ -16,13 +16,13 @@ async function comenzar(req, res) {
 
   const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
   const sessionPath = sessionClient.sessionPath(
-    confKeys.googleProjectID, 'test13',
+    confKeys.googleProjectID, 'test16',
   );
 
   const evento = {
     session: sessionPath,
     queryInput: {
-      event: { name: req.body.event, languageCode: confKeys.dialogFlowSessionLanguageCode },
+      event: { name: req.body.event, languageCode: process.env.DIALOGFLOW_LANGUAGE_CODE },
     },
   };
 
@@ -37,20 +37,14 @@ async function comenzar(req, res) {
 async function recibeMensaje(req, res) {
 
   /**
-   *
    * @param {string} [text=""] -- El texto que envía el usuario
-   * @param {Array<{"name":String, "lifeSpanCount": Number, "parameters": Object}>} [contexts=[]]
-   *  -- El contexto de la conversación."Name" es el nombre del contexto y
-   *  "lifeSpanCount" (opcional) indica cuántas interacciones debe durar este contexto.
    */
 
   if (!req.body.text) return res.status(400).json({ error: 'Mensaje vacío' });
   const { text } = req.body;
 
   const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
-  const sessionPath = sessionClient.sessionPath(
-    confKeys.googleProjectID, 'test14',
-  );
+  const sessionPath = sessionClient.sessionPath(confKeys.googleProjectID, 'test16');
 
   const consulta = {
     session: sessionPath,

@@ -6,7 +6,7 @@ const catchingAsyncErrors = require('./middleware/wrapAsync');
 // CHAT BOT
 const Alberto = require('./services/chatbot');
 
-router.post('/alberto/comenzar', catchingAsyncErrors(Alberto.comenzar));
+router.post('/alberto/evento', catchingAsyncErrors(Alberto.enviaEvento));
 router.post('/alberto/mensaje', catchingAsyncErrors(Alberto.recibeMensaje));
 
 // FRASES

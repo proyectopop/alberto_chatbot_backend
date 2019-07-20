@@ -10,7 +10,7 @@ const credentials = {
 //
 // ─── EVENT QUERIES ─────────────────────────────────────────────────────────────────────
 //
-async function comenzar(req, res) {
+async function enviaEvento(req, res) {
 
   if (!req.body.event) return res.status(400).json({ error: 'Evento vacío' });
 
@@ -59,4 +59,4 @@ async function recibeMensaje(req, res) {
 
 }
 
-module.exports = { comenzar, recibeMensaje };
+module.exports = { enviaEvento, recibeMensaje };

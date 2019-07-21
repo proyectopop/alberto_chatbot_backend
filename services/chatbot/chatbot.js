@@ -34,18 +34,12 @@ async function comenzar(req, res) {
 async function recibeMensaje(req, res) {
 
   /**
-   *
    * @param {string} [text=""] -- El texto que envía el usuario
-   * @param {Array<{"name":String, "lifeSpanCount": Number, "parameters": Object}>} [contexts=[]]
-   *  -- El contexto de la conversación."Name" es el nombre del contexto y
-   *  "lifeSpanCount" (opcional) indica   *  cuántas interacciones debe durar este contexto.
    */
 
   if (!req.body.text) return res.status(400).json({ error: 'Mensaje vacío' });
 
   const { text } = req.body;
-  const contexts = req.body.contexts;
-
 
   const consulta = {
     session: sessionPath,
@@ -54,9 +48,6 @@ async function recibeMensaje(req, res) {
         text,
         languageCode: confKeys.dialogFlowSessionLanguageCode,
       },
-    },
-    queryParams: {
-      contexts: contexts && contexts.length ? contexts : null,
     },
   };
 

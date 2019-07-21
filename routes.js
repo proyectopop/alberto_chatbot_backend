@@ -3,11 +3,14 @@ require('./models/Frase');
 const router = require('express').Router();
 const catchingAsyncErrors = require('./middleware/wrapAsync');
 
+const Images = require('./services/images');
+
 // CHAT BOT
 const Alberto = require('./services/chatbot');
 
 router.post('/alberto/evento', catchingAsyncErrors(Alberto.enviaEvento));
 router.post('/alberto/mensaje', catchingAsyncErrors(Alberto.recibeMensaje));
+router.post('/alberto/images', catchingAsyncErrors(Images.upload));
 
 // FRASES
 const frases = require('./controllers/fraseController');

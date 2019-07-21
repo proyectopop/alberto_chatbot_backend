@@ -8,9 +8,17 @@ const Images = require('./services/images');
 // CHAT BOT
 const Alberto = require('./services/chatbot');
 
+
 router.post('/alberto/evento', catchingAsyncErrors(Alberto.enviaEvento));
 router.post('/alberto/mensaje', catchingAsyncErrors(Alberto.recibeMensaje));
-router.post('/alberto/images', catchingAsyncErrors(Images.upload));
+router.post('/alberto/image', Images.upload.single('file'), function(req, res, next) {
+    console.log(req.file);
+    if(!req.file) {
+      res.status(500);
+      return next(err);
+    }
+    res.json({ fileUrl: 'http://192.168.0.7:3000/images/' + req.file.filename });
+  });
 
 // FRASES
 const frases = require('./controllers/fraseController');

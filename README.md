@@ -8,9 +8,7 @@
    `npm i`
 
 2. Cargar las variables de entorno  
-   `env.example` contiene las claves necesarias para levanter la base de datos y comunicarse
-   con Dialog Flow  
-   Crear archivo `.env`en el la raíz del proyecto y colocar las claves y valores necesarias
+   Crear archivo `.env`en el la raíz del proyecto y colocar las claves y valores necesarias según se desprende de `env.example`, que contiene las claves necesarias para levanter la base de datos y comunicarse con Dialog Flow
 
 3. Correr el proyecto  
    `npm run dev` en desarrollo local  

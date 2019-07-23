@@ -1,29 +1,32 @@
-/*
-async function upload(req, res) {
+const multer = require('multer');
+const Datauri = require('datauri');
+const path = require('path');
+const { uploader } = require('../../config/cloudinaryConfig');
 
-    
-    return res.status(200).json({"test": "test"});
-  }
-*/
-var multer  = require('multer');
-var storage =  multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './public/images');
-    },
-    filename: (req, file, cb) => {
-      console.log(file);
-      var filetype = '';
-      if(file.mimetype === 'image/gif') {
-        filetype = 'gif';
+const dUri = new Datauri();
+
+const storage = multer.memoryStorage();
+
+const multerUploads = multer({ storage }).single('image');
+
+const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
+
+const processUpload = (req, res) => {
+  const file = dataUri(req).content;
+  return uploader.upload(file).then((result) => {
+    const image = result.url;
+    return res.status(200).json({
+      messge: 'Your image has been uploded successfully to cloudinary',
+      data: {
+        image
       }
-      if(file.mimetype === 'image/png') {
-        filetype = 'png';
-      }
-      if(file.mimetype === 'image/jpeg') {
-        filetype = 'jpg';
-      }
-      cb(null, 'image-' + Date.now() + '.' + filetype);
+    })
+  }).catch((err) => res.status(400).json({
+    messge: 'someting went wrong while processing your request',
+    data: {
+      err
     }
-});
-const upload = multer({storage: storage});
-  module.exports = { upload };
+  }))
+};
+
+module.exports = { multerUploads, processUpload };

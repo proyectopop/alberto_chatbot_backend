@@ -1,3 +1,4 @@
+require('../models/Frase');
 const mongoose = require('mongoose');
 
 const Frase = mongoose.model('Frase');

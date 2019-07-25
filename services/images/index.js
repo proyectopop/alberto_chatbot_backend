@@ -13,7 +13,8 @@ const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(
 
 const processUpload = (req, res) => {
   const file = dataUri(req).content;
-  return uploader.upload(file).then((result) => {
+  return uploader.upload(file, {transformation: [
+    {width: 300, crop: "fill"}]}).then((result) => {
     const image = result.url;
     return res.status(200).json({
       messge: 'Your image has been uploded successfully to cloudinary',

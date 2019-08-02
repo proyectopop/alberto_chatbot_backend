@@ -14,10 +14,12 @@ const credentials = {
 async function enviaEvento(req, res) {
 
   if (!req.body.event) return res.status(400).json({ error: 'Evento vacío' });
+  if (!req.body.sessionId) return res.status(400).json({ error: 'Sesión inválida' });
 
+  const { sessionId } = req.body;
   const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
   const sessionPath = sessionClient.sessionPath(
-    confKeys.googleProjectID, 'test17',
+    confKeys.googleProjectID, sessionId,
   );
 
   const evento = {
@@ -42,6 +44,7 @@ async function recibeMensaje(req, res) {
    * @param {string} [session = 0] -- Número único de identificación de sesión
    */
   if (!req.body.text) return res.status(400).json({ error: 'Mensaje vacío' });
+  if (!req.body.sessionId) return res.status(400).json({ error: 'Sesión inválida' });
 
   const { sessionId, text } = req.body;
 

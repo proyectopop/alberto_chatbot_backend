@@ -77,3 +77,6 @@ typings/
 
 # Google Service Account Info
 alberto-fernandez-chatbot.json
+
+#DS Store
+.DS_Store

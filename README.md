@@ -1,8 +1,6 @@
 # ALBERTO CHATBOT ADMIN - BACKEND
 
-## Backend para proveer la API para el Admin y el servicio del Chat-Bot
-
-### Cómo levantar el proyecto
+## Cómo levantar el proyecto
 
 1. Instalar dependencias  
    `npm i`

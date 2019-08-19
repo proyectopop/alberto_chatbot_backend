@@ -18,7 +18,11 @@ const helmet = require('helmet');
 const { cloudinaryConfig } = require('./config/cloudinaryConfig');
 
 /* Implementar manejo de CORS */
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://charlaconalberto.now.sh/'],
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 
 /* Implementar Body Parser */

@@ -9,48 +9,8 @@ require('./db/connection');
 const app = express();
 const { PORT = 7333 } = process.env;
 
-// Middleware
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const enforce = require('express-sslify');
-const helmet = require('helmet');
-const RateLimit = require('express-rate-limit');
-const { cloudinaryConfig } = require('./config/cloudinaryConfig');
-
-/* Implementar límite de peticiones */
-const limiter = new RateLimit({
-  windowMs: 1 * 60 * 1000,
-  max: 100,
-});
-app.use(limiter);
-
-/* Implementar manejo de CORS */
-const corsOptions = {
-  origin: ['http://localhost:3000', 'https://charlaconalberto.now.sh/'],
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-
-
-/* Implementar Body Parser */
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-/* Implementar seguridad en encabezados */
-app.use(helmet());
-
-/* Implementar servicio Cloudinary */
-app.use('*', cloudinaryConfig);
-
-/* Forzar HTTPS */
-if (process.env.NODE_ENV === 'production') {
-  app.use(enforce.HTTPS({ trustProtoHeader: true }));
-}
-
-/* Implementar Compresión */
-app.use(compression());
-
+// Implementar middleware
+require('./middleware/loader')(app);
 
 // Logger
 const logger = require('./services/logger');

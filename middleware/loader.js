@@ -17,7 +17,7 @@ module.exports = (app) => {
 
   /* Implementar manejo de CORS */
   const corsOptions = {
-    origin: ['http://localhost:3000', 'https://charlaconalberto.now.sh'],
+    origin: ['http://localhost:3000', 'http://localhost:7333', 'https://charlaconalberto.now.sh'],
     optionsSuccessStatus: 200,
   };
   app.use(cors(corsOptions));

@@ -16,3 +16,5 @@ exports.buscarImagen = async (req, res) => {
 
   return res.status(200).json({});
 };
+
+exports.todasLasImagenes = async () => Imagen.find();

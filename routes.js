@@ -7,9 +7,14 @@ const Alberto = require('./services/chatbot');
 // TEST
 router.get('/alberto/prueba', async (req, res) => {
 
-  const { statusCode } = await Imagen.buscarImagen().catch(() => res.status(500));
+  const response = await Imagen.traerUnaImagenCualquiera();
 
-  return statusCode === 200 ? res.status(200).json({}) : res.status(500).json({});
+  if (response) {
+    return res.status(200).json();
+  }
+
+  return res.status(500).json();
+
 });
 
 // CHAT BOT

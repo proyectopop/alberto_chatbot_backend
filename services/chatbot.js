@@ -2,10 +2,16 @@ const dialogFow = require('dialogflow');
 const confKeys = require('../config/keys');
 
 const projectId = confKeys.googleProjectID;
+const projectIdNoTrack = confKeys.googleProjectIDNoTrack;
 
 const credentials = {
   client_email: confKeys.googleClientEmail,
   private_key: confKeys.googlePrivateKey,
+};
+
+const noTrackCredentials = {
+  client_email: confKeys.googleClientEmailNoTrack,
+  private_key: confKeys.googlePrivateKeyNoTrack,
 };
 
 //
@@ -17,10 +23,21 @@ async function enviaEvento(req, res) {
   if (!req.body.sessionId) return res.status(400).json({ error: 'Sesión inválida' });
 
   const { sessionId } = req.body;
-  const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
-  const sessionPath = sessionClient.sessionPath(
-    confKeys.googleProjectID, sessionId,
-  );
+  const noTrack = req.body.noTrack;
+
+  let sessionClient;
+  let sessionPath;
+
+  if (noTrack) {
+    sessionClient = new dialogFow.SessionsClient({
+      projectId: projectIdNoTrack,
+      credentials: noTrackCredentials,
+    });
+    sessionPath = sessionClient.sessionPath(projectIdNoTrack, sessionId);
+  } else {
+    sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
+    sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  }
 
   const evento = {
     session: sessionPath,
@@ -47,9 +64,21 @@ async function recibeMensaje(req, res) {
   if (!req.body.sessionId) return res.status(400).json({ error: 'Sesión inválida' });
 
   const { sessionId, text } = req.body;
+  const noTrack = req.body.noTrack;
 
-  const sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
-  const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  let sessionClient;
+  let sessionPath;
+
+  if (noTrack) {
+    sessionClient = new dialogFow.SessionsClient({
+      projectId: projectIdNoTrack,
+      credentials: noTrackCredentials,
+    });
+    sessionPath = sessionClient.sessionPath(projectIdNoTrack, sessionId);
+  } else {
+    sessionClient = new dialogFow.SessionsClient({ projectId, credentials });
+    sessionPath = sessionClient.sessionPath(projectId, sessionId);
+  }
 
 
   const consulta = {
